@@ -2,39 +2,44 @@ package benchmark_go_closures
 
 import (
 	"testing"
-	// "fmt"
+	"fmt"
 )
 
-func BenchmarkClosureWithPassedIn(b *testing.B) {
+func BenchmarkAnonymousFunction(b *testing.B) {
+	var t int64
 	for i := 0; i < b.N; i++ {
-		f := func(i int) (r int) {
-			// fmt.Sprintf("Hello %d", i)
-			r = i * 2
+		f := func(j int64) (r int64) {
+			r = j * 2
 			return
 		}
-		f(i)
+
+		t = f(int64(i))
 	}
+	fmt.Sprintln(t)
 }
 
-func BenchmarkClosureWithGlobalVariable(b *testing.B) {
+func BenchmarkClosure(b *testing.B) {
+	var t int64
 	for i := 0; i < b.N; i++ {
-		f := func() (r int) {
-			// fmt.Sprintf("Hello %d", i)
-			r = i * 2
+		f := func() (r int64) {
+			r = int64(i) * 2
 			return
 		}
-		f()
+		t = f()
 	}
+	fmt.Sprintln(t)
+
 }
 
-func BenchmarkNormalFunctionCall(b *testing.B) {
+func BenchmarkNormalFunction(b *testing.B) {
+	var t int64
 	for i := 0; i < b.N; i++ {
-		multiple2(i)
+		t = multiple2(int64(i))
 	}
+	fmt.Sprintln(t)
 }
 
-func multiple2(i int) (r int) {
-	// fmt.Sprintf("Hello %d", i)
+func multiple2(i int64) (r int64) {
 	r = i * 2
 	return
 }
