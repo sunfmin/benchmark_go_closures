@@ -1,8 +1,8 @@
 package benchmark_go_closures
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func BenchmarkAnonymousFunction(b *testing.B) {
@@ -25,6 +25,21 @@ func BenchmarkClosure(b *testing.B) {
 			r = int64(i) * 2
 			return
 		}
+		t = f()
+	}
+	fmt.Sprintln(t)
+
+}
+
+func BenchmarkReusingClosure(b *testing.B) {
+	var t int64
+	var j int64
+	f := func() (r int64) {
+		r = j * 2
+		return
+	}
+
+	for i := 0; i < b.N; i++ {
 		t = f()
 	}
 	fmt.Sprintln(t)
